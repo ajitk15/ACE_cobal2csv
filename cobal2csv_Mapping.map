@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
+    <input path="/employee.xsd"/>
+    <output path="/employee_csv.xsd"/>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="cobal2csv_Mapping">
+        <input path="mb:msg(EMPLOYEERECORD,assembly,DFDL,Properties)" var="ComIbmMessageAssembly_EMPLOYEERECORD"/>
+        <output path="mb:msg(employee_csv,assembly,DFDL,Properties)" var="ComIbmMessageAssembly_employee_csv"/>
+        <move>
+            <input path="$ComIbmMessageAssembly_EMPLOYEERECORD/Properties"/>
+            <output path="$ComIbmMessageAssembly_employee_csv/Properties"/>
+            <override>
+                <assign value="{}:employee_csv">
+                    <output path="$ComIbmMessageAssembly_employee_csv/Properties/MessageType"/>
+                </assign>
+            </override>
+        </move>
+        <foreach>
+            <input path="$ComIbmMessageAssembly_EMPLOYEERECORD/EMPLOYEERECORD/reocrd"/>
+            <output path="$ComIbmMessageAssembly_employee_csv/employee_csv/record"/>
+            <move automap="true">
+                <input path="EMPLOYEE_ID"/>
+                <output path="EMPLOYEE_ID"/>
+            </move>
+            <move automap="true">
+                <input path="FIRST_NAME"/>
+                <output path="FIRST_NAME"/>
+            </move>
+            <move automap="true">
+                <input path="LAST_NAME"/>
+                <output path="LAST_NAME"/>
+            </move>
+            <move automap="true">
+                <input path="EMAIL_ADDRESS"/>
+                <output path="EMAIL_ADDRESS"/>
+            </move>
+            <move automap="true">
+                <input path="DESIGNATION"/>
+                <output path="DESIGNATION"/>
+            </move>
+            <move automap="true">
+                <input path="SALARY"/>
+                <output path="SALARY"/>
+            </move>
+            <move automap="true">
+                <input path="DEPARTMENT"/>
+                <output path="DEPARTMENT"/>
+            </move>
+        </foreach>
+    </mappingDeclaration>
+</mappingRoot>
